@@ -1,12 +1,148 @@
 # nonprofit's compound & scholarly research skill
 
-A self-scaffolding agent skill that acts as the gate before any claim about pharmacology, compounds, biology, studies, trials, or papers is made or answered. One chain of 31 free, no-account research services across 5 layers, with entry points chosen by the question and the full chain run every time.
+**Any claim about a compound, drug, or study. Answered with receipts.**
 
-Point your agent at this repo and tell it to download the skill. Everything it needs is here: `SKILL.md`, the full service catalog, and a bootstrap script that installs prerequisites and sets up the workspace on its own.
+One chain of 31 free, no-account research services. Structure, mechanism, disease, live trials, every paper ever written about the compound, every legal free copy of every paper, every region, every era, every book. Your agent stops guessing from memory and starts answering from primary sources, in a single run.
+
+> 324M+ papers indexed · 5M+ Chinese-language works · 114k open-access full texts for one compound · 3M+ full-text articles · 300M+ repository records · 250M shadow-index records · 31 services · 5 layers · 0 accounts · $0
+
+## The problem
+
+Your agent answers from memory. It sounds confident, it sounds right, and it fails the first check.
+
+- **Memory is not evidence.** Plausible-sounding claims about mechanisms, trials, and dosing die the moment they hit a primary source. This skill makes that moment happen before you hear the claim.
+- **80% of full text sits behind paywalls.** Even when an agent finds the right paper, it can only quote the abstract.
+- **The global indexes miss half the world.** Japanese, Latin American, and African literature barely register in Western search. Chinese core journals: only 24-37% covered by the big index.
+- **Shallow mechanistic answers.** Most tooling knows a drug exists. It does not know what the drug binds, at what potency, in which assay, at what clinical phase.
+- **Dead ends.** One API, one query, zero results, conclusion: "nothing exists." The query was the problem, not the space.
+
+## Two ways to research a compound
+
+**THE WAY EVERYTHING ELSE DOES IT:**
+
+- One API, one query
+- Abstracts at best, links at worst
+- English-only bias
+- Paywall after paywall
+- "I couldn't find anything" = the end of the road
+
+Timeline: hours of hunting, still incomplete.
+
+**THE CHAIN:**
+
+- 31 services, one run
+- Full text retrieved, open and otherwise
+- Japan, Latin America, Africa, Europe covered
+- Patents, bioactivity, live trial status, books, backfiles
+- "I couldn't find anything" = the chain keeps going anyway
+
+Timeline: one run, complete record.
+
+## How it works
+
+**Five steps. One run.**
+
+1. **Install.** Point your agent at this repo. The bootstrap checks python3 and curl, installs scrapling, nodriver, and pymupdf if missing, creates its own workspace. It does not ask you to fix anything it can fix itself.
+2. **Ask anything.** A compound, a disease, a target, a DOI, a book, a claim that needs verifying.
+3. **The chain picks your entry point.** A drug starts at PubChem (identity) → ChEMBL (mechanism) → OpenTargets (disease) → ClinicalTrials.gov (live trials) → then all 27 others in order. A disease starts at OpenTargets. A DOI starts at Crossref. A book starts at Open Library.
+4. **All 31 run, every time.** Twelve passes: identity, mechanism, disease, trials, discovery, open full text, regional, preprints, archives, books, gated full text, page retrieval. Nothing is skipped because an answer was found early.
+5. **The record stays on the table.** Every follow-up question pulls from what the chain already found. No restarting, no re-hunting, nothing missed.
+
+## What you get
+
+**31 services, 5 layers, one chain.** Every one live-verified, no accounts, no cost.
+
+| Layer | Services | What it does |
+|---|---|---|
+| 1. Compound research | 1 OpenTargets, 2 ChEMBL, 3 ClinicalTrials.gov v2, 4 PubChem | Identity, bioactivity, mechanism, clinical stage, live trial status, structure, patents |
+| 2. Article discovery | 5 OpenAlex, 6 Crossref, 7 Semantic Scholar, 8 DOAJ, 9 OpenAIRE, 10 OpenCitations | Every paper that exists, citations, TLDRs, OA whitelist, repository radar |
+| 3. Full text, open infrastructure | 11 Europe PMC, 12 PubMed Central, 13 CORE, 14 Unpaywall, 15 J-STAGE, 16 SciELO, 17 AJOL, 18 arXiv + bioRxiv/medRxiv, 19 Internet Archive, 20 HathiTrust, 21 Open Library, 22 Google Books, 23 Gutenberg, 24 DOAB | Structured full text, repository PDFs, OA resolution, Japan, Latin America, Africa, preprints, scanned backfiles, books |
+| 4. Full text, shadow infrastructure | 25 Sci-Hub, 26 Library Genesis, 27 Z-Library, 28 Anna's Archive | On-demand retrieval of publisher-gated content, four overlapping front ends |
+| 5. Page retrieval | 29 Scrapling, 30 Nodriver, 31 PDFs | Reads the pages no index holds, passes bot gates, extracts PDFs |
+
+**The depth most agents never reach:**
+
+- Mechanistic action at the molecular level: IC50s, Ki values, assay-level bioactivity from ChEMBL
+- Brand-new compounds: patents from PubChem are the earliest signal of anything
+- Live human evidence: ClinicalTrials.gov daily, "is it in a human right now, and in which phase"
+- Full text you can actually read: structured XML from Europe PMC, working PDF URLs from CORE, scanned 1950 volumes from Internet Archive
+- The gated layer: anything the open layer cannot serve, four overlapping services can
+- Evidence discipline: every claim carries CONFIRMED (with source URL) or INFERRED markers
+
+**The operational machinery:**
+
+- Self-scaffolding bootstrap: installs its own prerequisites, creates its workspace, idempotent
+- Workspace management: every run gets a context-named folder with Primary/ (deliverables), Secondary/ (working docs), temp/ (downloads)
+- Rate-limit etiquette built in: polite pools, 429 backoff, credit caps, per-service pacing
+- Error handling: mirror rotation re-resolution, datacenter-IP workarounds, fingerprint-gate handling, PDF extraction rules
+- The overlap map: services deliberately overlap, so no single outage ever kills a pass
+
+## The math
+
+**WITHOUT THIS SKILL:**
+
+- Memory-guessed claims that need re-verification later
+- Abstracts when you needed full text
+- Western literature only
+- Hours per compound, incomplete record
+
+**WITH THIS SKILL:**
+
+- 324M+ papers searchable in one index (OpenAlex)
+- 185M+ DOIs, real-time registration (Crossref)
+- 45M+ records, 114k open-access full texts for a single compound (Europe PMC)
+- 300M+ repository records with working PDF URLs (CORE)
+- 5M+ Chinese-language works, Japanese, Latin American, and African literature
+- 250M records in one shadow index (Anna's Archive)
+- Every region, every era, every book, every copy
+
+**The translation:** one skill replaces thirty-one individual integrations, and covers what none of them cover alone. The whole chain costs nothing, and it never stops at "not found."
+
+## Proof
+
+Every service in this stack was live-probed on 2026-08-13. HTTP status and endpoint contracts are real, not assumed. The example that runs through the whole stack:
+
+> aspirin → PubChem CID 2244, InChIKey BSYNRYMUTXBXSQ-UHFFFAOYSA-N → ChEMBL CHEMBL25, max_phase 4.0 → OpenTargets maximumClinicalStage APPROVAL → 241k Europe PMC hits, 114k of them open-access full text → 13.5k J-STAGE hits → complete record across all 31 services
+
+## FAQ
+
+**Is it really free?** Yes. Every service in the chain works without an account or payment. A few have optional free keys that raise rate limits (OpenAlex, Semantic Scholar, NCBI, CORE, Google Books); the shadow layer has one optional donation key (Anna's Archive) and one optional premium tier (Z-Library). None are required.
+
+**What can it not find?** The genuinely closed literatures: China (CNKI/WanFang/CQVIP), Russia (eLibrary.ru), Taiwan (Airiti), the Arabic world (Al Manhal). No API exists for them, paid or otherwise. The FAQ on that is short: institutional subscriptions only.
+
+**Is the shadow layer necessary?** The open layer covers everything legally free. The shadow layer covers the rest. The stack treats both as first-class: run the open passes first, the gated pass finishes the job.
+
+**Is it stable?** The 31 legal services are as stable as their hosts. Mirror-based services rotate domains; the skill re-resolves at runtime and falls back across them. No single service outage kills a pass, that is what the overlap map is for.
+
+**Which agents does it work with?** Any agent that can read a skills directory. No harness-specific code, no vendor lock-in.
+
+**Does it need API keys to start?** No. Zero-configuration first run. Keys only matter if you want higher rate limits, and the skill tells you which ones are worth it.
+
+**How do I know it is working?** Evidence markers on every claim, source URLs, and a workspace that shows exactly what ran and what it found.
+
+## Installation
+
+```
+git clone https://github.com/uhneer/nonprofits-compound-and-scholarly-research-skill
+```
+
+Place the folder into your agent's skills directory (common paths: `~/.claude/skills/`, `~/.hermes/skills/`, or wherever your agent reads skills from), then ask. The first run installs its own prerequisites and creates its workspace. No configuration, no keys, no setup ceremony.
+
+Requirements: python3, curl, an internet connection. The bootstrap handles the rest (`scripts/bootstrap.sh`).
+
+## File layout
+
+```
+SKILL.md                        the skill: trigger, workflow, rules
+references/stack-catalog.md     full 31-service catalog: endpoints, docs, limits, fallbacks, upgrades
+scripts/bootstrap.sh            self-scaffolding: prerequisites + workspace
+README.md                       this file
+LICENSE                         MIT
+```
 
 ---
 
-# The Research Stack
+# The Research Stack (full reference)
 
 A full-surface research stack for compound/chemical research and article/literature research: 31 numbered services across 5 layers. Every service was live-probed on 2026-08-13; HTTP status and endpoint contracts are real. Mirror-based services rotate domains constantly, so treat their URLs as refreshable rather than fixed. No account is needed anywhere unless the entry says so.
 
@@ -357,39 +493,3 @@ Every pass's findings stay on the table. When the user asks a follow-up (how doe
 | Elsevier content | Institutional Scopus/ScienceDirect APIs | metadata + full text with subscription |
 | Wiley content | Institutional TDM token | full text with subscription |
 | China/Russia/Taiwan/MENA literature | Institutional subscriptions (CNKI, eLibrary, Airiti, Al Manhal) | no API exists, paid or otherwise |
-
----
-
-## Installation
-
-Clone or copy this repo into your agent's skills directory, or point your agent at this URL and say "download this skill":
-
-```
-git clone https://github.com/uhneer/nonprofits-compound-and-scholarly-research-skill
-```
-
-Then place the `SKILL.md` file (with the `references/` and `scripts/` folders beside it) into your agent's skills folder. Common locations are `~/.claude/skills/`, `~/.hermes/skills/`, or whatever directory your agent reads skills from.
-
-No configuration needed. The first run installs missing prerequisites itself (`scripts/bootstrap.sh`) and creates its workspace.
-
-## Requirements
-
-- `python3` and `curl` (installed via the platform package manager if missing; the bootstrap tells you)
-- Python packages `scrapling`, `nodriver`, `pymupdf`, `pdfplumber` (auto-installed by the bootstrap)
-- An internet connection. Most services are keyless; optional free keys raise limits (documented in the catalog).
-
-## File layout
-
-```
-SKILL.md                        the skill itself: trigger, workflow, rules
-references/stack-catalog.md     full 31-service catalog with docs, limits, fallbacks
-scripts/bootstrap.sh            self-scaffolding: prerequisites + workspace
-README.md                       this file
-LICENSE                         MIT
-```
-
-## Notes
-
-- Mirror-based services (Sci-Hub, LibGen, Z-Library, Anna's Archive) rotate domains; the skill re-resolves at runtime and falls back across them.
-- Some services block datacenter IPs or use fingerprint JS gates; the skill's Layer 5 (Scrapling, Nodriver) exists exactly for that.
-- A few closed regional literatures (China CNKI, Russia eLibrary, Taiwan Airiti, MENA Al Manhal) have no API of any kind; the catalog documents what does exist.
