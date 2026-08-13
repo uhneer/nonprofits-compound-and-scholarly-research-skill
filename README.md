@@ -76,6 +76,7 @@ Timeline: one run. Complete record. Done.
 - Rate-limit etiquette built in: polite pools, 429 backoff, credit caps, per-service pacing
 - Error handling: mirror rotation re-resolution, datacenter-IP workarounds, fingerprint-gate handling, PDF extraction rules
 - The overlap map: services deliberately overlap, so no single outage ever kills a pass
+- Self-maintenance: drift gets diagnosed and repaired in-run. The skill and catalog update themselves. No maintainer required, plain text plus an agent outlives any code
 
 ## The math
 

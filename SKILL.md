@@ -113,6 +113,18 @@ Every pass's findings stay on the table. When the user asks a follow-up (mechani
 - PDFs never go through scrapers: curl the file, extract with pymupdf.
 - A single service outage never kills a pass: the overlap map exists so alternatives absorb it. Continue the chain and note the gap.
 
+## Self-maintenance: the skill repairs itself
+
+This skill is a living document, and the agent running it is its repair mechanism. When something breaks or drifts, fix it in the same run. Do not just work around it.
+
+1. **Diagnose drift, do not just retry.** If a service returns 4xx/5xx, an empty result set where data is expected, or a response whose shape no longer matches the catalog (missing fields, renamed fields, changed pagination or auth), treat it as potential drift, not a transient error.
+2. **Verify against current docs.** Fetch the service's documentation URL (every service has one in `references/stack-catalog.md`), confirm the new endpoint shape, auth model, or rate limit before changing anything.
+3. **Update the catalog.** Patch `references/stack-catalog.md` with the corrected endpoint, fields, or limits. Mark the change with the date.
+4. **Update this skill if the procedure changed.** If drift affects the passes, entry points, or pitfalls, patch `SKILL.md` accordingly. The skill must never go stale while it is being used.
+5. **Record the repair in the run.** Note what broke, what was verified, and what was changed in the run's `Secondary/` folder so the fix is auditable.
+6. **Regenerate derived artifacts.** Any code layer (MCP server, CLI, helper scripts) is derived from this skill. Rebuild it from the updated skill rather than maintaining it separately. Never let code become a second source of truth.
+7. **Dead services get documented, not mourned.** If a service is truly gone (domains dead across mirrors, API retired), mark it dead in the catalog with its replacement and fallback, and keep the chain moving.
+
 ## Output rules
 
 - Write incrementally: section to disk the moment it is done. Never buffer a whole report in memory.
@@ -132,6 +144,7 @@ Every pass's findings stay on the table. When the user asks a follow-up (mechani
 - Ignoring rate limits, then misreading 429s as "service down".
 - Writing the final report only at the end: an interrupted run loses everything. Incremental writes only.
 - Forgetting the workspace rules: temp junk outside the run folder pollutes the machine.
+- Working around drift instead of repairing the skill: a workaround that is not written back into the catalog or SKILL.md is lost on the next run. Self-maintenance is mandatory, not optional.
 
 ## Done looks like
 
@@ -139,3 +152,4 @@ Every pass's findings stay on the table. When the user asks a follow-up (mechani
 - Every claim carries an evidence marker and a source.
 - Deliverables in `Primary/`, working docs in `Secondary/`, no stray files outside the run folder.
 - Prerequisites verified or installed, workspace created or reused.
+- Drift discovered during the run was repaired: catalog and/or SKILL.md updated, repair logged in Secondary/.
