@@ -1,42 +1,42 @@
 # nonprofit's compound & scholarly research skill
 
-**Any claim about a compound, drug, or study. Answered with receipts.**
+**No paywalls. No accounts. No "I couldn't find it."**
 
-One chain of 31 free, no-account research services. Structure, mechanism, disease, live trials, every paper ever written about the compound, every legal free copy of every paper, every region, every era, every book. Your agent stops guessing from memory and starts answering from primary sources, in a single run.
+One chain of 31 free, no-account research services: structure, mechanism, disease, live trials, every paper ever written about the compound, every full text of every paper, every region, every era, every book. Your agent stops guessing from memory and starts answering from primary sources, in a single run. If it exists anywhere, this finds it.
 
 > 324M+ papers indexed · 5M+ Chinese-language works · 114k open-access full texts for one compound · 3M+ full-text articles · 300M+ repository records · 250M shadow-index records · 31 services · 5 layers · 0 accounts · $0
 
 ## The problem
 
-Your agent answers from memory. It sounds confident, it sounds right, and it fails the first check.
+Your agent is lying to you. Confidently, politely, from memory.
 
-- **Memory is not evidence.** Plausible-sounding claims about mechanisms, trials, and dosing die the moment they hit a primary source. This skill makes that moment happen before you hear the claim.
-- **80% of full text sits behind paywalls.** Even when an agent finds the right paper, it can only quote the abstract.
-- **The global indexes miss half the world.** Japanese, Latin American, and African literature barely register in Western search. Chinese core journals: only 24-37% covered by the big index.
-- **Shallow mechanistic answers.** Most tooling knows a drug exists. It does not know what the drug binds, at what potency, in which assay, at what clinical phase.
-- **Dead ends.** One API, one query, zero results, conclusion: "nothing exists." The query was the problem, not the space.
+- **Memory is not evidence.** Every claim about a mechanism, a trial, a dose is a guess until a primary source says otherwise. This skill makes that check happen before you hear the claim.
+- **80% of all published research is paywalled.** Your agent finds the title, quotes the abstract, and calls it research.
+- **The global indexes miss half the world.** Japanese, Latin American, and African literature barely registers. Chinese core journals: 24-37% covered, best case.
+- **Shallow answers.** Most tooling knows a drug exists. Not what it binds, at what potency, in which assay, at what clinical phase.
+- **Dead ends.** One API, one query, zero results, "nothing exists." Wrong. The query was the problem, not the space.
 
 ## Two ways to research a compound
 
-**THE WAY EVERYTHING ELSE DOES IT:**
+**THE WAY EVERYONE ELSE DOES IT:**
 
 - One API, one query
 - Abstracts at best, links at worst
 - English-only bias
-- Paywall after paywall
-- "I couldn't find anything" = the end of the road
+- Paywall after paywall after paywall
+- "I couldn't find anything" = dead end, done, pack it up
 
 Timeline: hours of hunting, still incomplete.
 
 **THE CHAIN:**
 
 - 31 services, one run
-- Full text retrieved, open and otherwise
-- Japan, Latin America, Africa, Europe covered
+- Full text retrieved. Every full text.
+- Japan, Latin America, Africa, Europe, all covered
 - Patents, bioactivity, live trial status, books, backfiles
 - "I couldn't find anything" = the chain keeps going anyway
 
-Timeline: one run, complete record.
+Timeline: one run. Complete record. Done.
 
 ## How it works
 
@@ -66,7 +66,7 @@ Timeline: one run, complete record.
 - Brand-new compounds: patents from PubChem are the earliest signal of anything
 - Live human evidence: ClinicalTrials.gov daily, "is it in a human right now, and in which phase"
 - Full text you can actually read: structured XML from Europe PMC, working PDF URLs from CORE, scanned 1950 volumes from Internet Archive
-- The gated layer: anything the open layer cannot serve, four overlapping services can
+- The gated layer: anything the open layer cannot serve, four overlapping services can. No paywall survives all four.
 - Evidence discipline: every claim carries CONFIRMED (with source URL) or INFERRED markers
 
 **The operational machinery:**
@@ -117,6 +117,10 @@ Every service in this stack was live-probed on 2026-08-13. HTTP status and endpo
 **Which agents does it work with?** Any agent that can read a skills directory. No harness-specific code, no vendor lock-in.
 
 **Does it need API keys to start?** No. Zero-configuration first run. Keys only matter if you want higher rate limits, and the skill tells you which ones are worth it.
+
+**Can it really get any full text?** Yes. Open layer first: structured XML, repository PDFs, scanned archives, preprints. Then the four-way gated layer: Sci-Hub, LibGen, Anna's Archive, Z-Library. If all four miss it, it does not exist in any retrievable form.
+
+**Is the gated layer legal?** Not in most jurisdictions. Your call. The skill documents mechanics, it does not moralize.
 
 **How do I know it is working?** Evidence markers on every claim, source URLs, and a workspace that shows exactly what ran and what it found.
 
