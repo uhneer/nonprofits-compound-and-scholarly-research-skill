@@ -1,4 +1,4 @@
-# Nonprofits Compound & Scholarly Research
+# nonprofit's compound & scholarly research skill
 
 A self-scaffolding agent skill that acts as the gate before any claim about pharmacology, compounds, biology, studies, trials, or papers is made or answered. One chain of 31 free, no-account research services across 5 layers, with entry points chosen by the question and the full chain run every time.
 
@@ -82,7 +82,7 @@ Entry point examples: a drug starts at PubChem then ChEMBL then OpenTargets then
 Clone or copy this repo into your agent's skills directory, or point your agent at this URL and say "download this skill":
 
 ```
-git clone https://github.com/uhneer/nonprofits-compound-and-scholarly-research
+git clone https://github.com/uhneer/nonprofits-compound-and-scholarly-research-skill
 ```
 
 Then place the `SKILL.md` file (with the `references/` and `scripts/` folders beside it) into your agent's skills folder. Common locations are `~/.claude/skills/`, `~/.hermes/skills/`, or whatever directory your agent reads skills from.

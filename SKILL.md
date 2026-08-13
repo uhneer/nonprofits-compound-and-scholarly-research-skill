@@ -1,11 +1,11 @@
 ---
-name: nonprofits-compound-and-scholarly-research
+name: nonprofits-compound-and-scholarly-research-skill
 description: Use before any pharmacology, compound, or study claim.
 version: 1.0.0
 category: research
 ---
 
-# Nonprofits Compound & Scholarly Research
+# nonprofit's compound & scholarly research skill
 
 ## Trigger
 
